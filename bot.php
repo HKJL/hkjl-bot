@@ -137,9 +137,9 @@ function http_banner($args) {
 }
 
 function output($output) {
-    // Remove any spaces around output and remove newlines
+    // Remove any spaces around output and remove non-printable characters such as LF, CR, SOH, etc.
     $output = trim($output);
-    $output = str_replace(array("\r", "\n"), '', $output);
+    $output = preg_replace('/[\x00-\x1F\x80-\x9F]/u', '', $output);
 
     // Limit output length
     if(strlen($output) > 450) {
