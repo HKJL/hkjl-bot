@@ -146,5 +146,5 @@ function output($output) {
       $output = substr($output,0,445)."(...)";
     }
 
-    echo $output;
+    echo htmlspecialchars($output);
 }

@@ -1,6 +1,7 @@
 import requests
 import socket
 import urllib
+from HTMLParser import HTMLParser
 
 # ------  SETTINGS  -------------
 network = 'chat.freenode.net'
@@ -23,6 +24,8 @@ irc.bind(( bindip, 0 ))
 irc.connect ( ( network, port ) )
 irc.send ( 'NICK ' + nick + '\r\n' )
 irc.send ( 'USER ' + nick + ' ' + nick + ' ' + nick + ' :' + nick + '\r\n' )
+
+h = HTMLParser()
 
 def Send(msg):
     irc.send('PRIVMSG ' + homechan + ' :' + msg +  '\r\n')
@@ -55,7 +58,7 @@ while True:
                 if len(info) == 1:
                     info.append("")
                 r = requests.get( backendurl + '?action=' + info[0] + '&args=' + urllib.quote_plus(info[1]))
-                Send(r.text.encode('utf-8').strip(' \n\t\r'))
+                Send(h.unescape(r.text.encode('utf-8').strip(' \n\t\r')))
             except Exception, e:
                 print e
                 if senderrorstoirc:
