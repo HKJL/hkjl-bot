@@ -41,7 +41,7 @@ switch($action)
         output("http://lmgtfy.com/?q=".urlencode($args));
         break;
     case 'help':
-        output("hier komt een topic te staan");
+        output("Handleiding van deze bot: https://community.hackenkunjeleren.nl/t/handleiding-hkjl-irc-bot/199");
         break;
     case 'wolfram':
         output(wolfram($args));
