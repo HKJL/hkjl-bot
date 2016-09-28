@@ -109,6 +109,9 @@ switch($action)
     case 'httpstatus':
         output(httpstatus($args));
         break;
+    case 'minutecron':
+        output(discourse_latest());
+        break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
         break;

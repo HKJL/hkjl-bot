@@ -1,6 +1,8 @@
 import requests
 import socket
 import urllib
+import schedule
+
 from HTMLParser import HTMLParser
 
 # ------  SETTINGS  -------------
@@ -30,11 +32,20 @@ h = HTMLParser()
 def Send(msg):
     irc.send('PRIVMSG ' + homechan + ' :' + msg +  '\r\n')
 
+def everyMinute():
+    r = requests.get( backendurl + '?action=minutecron' )
+    Send(h.unescape(r.text.encode('utf-8').strip(' \n\t\r')))
+
+schedule.every(1).minutes.do(everyMinute)
+
 # Main loop
 while True:
     action = 'none'
     joined = 0
     data = irc.recv ( 4096 ) 
+
+    # Run our defined periodical jobs
+    schedule.run_pending()
 
     if consoleoutput:
         print data
