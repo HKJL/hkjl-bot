@@ -74,3 +74,11 @@ while True:
                 print e
                 if senderrorstoirc:
                     Send(e.encode('utf-8').strip(' \n\t\r'))
+        if givendata.find('http') == 0:
+            try:
+                r = requests.get( backendurl + '?action=gettitle&args=' + urllib.quote_plus(givendata) )
+                Send(h.unescape(r.text.encode('utf-8').strip(' \n\t\r')))
+            except Exception, e:
+                print e
+                if senderrorstoirc:
+                    Send(e.encode('utf-8').strip(' \n\t\r'))

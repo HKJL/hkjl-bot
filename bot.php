@@ -112,9 +112,42 @@ switch($action)
     case 'minutecron':
         output(discourse_latest());
         break;
+    case 'gettitle':
+        output(get_title($args));
+        break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
         break;
+}
+
+function get_title($args) {
+
+    // If user did not supply a HTTP or HTTPS scheme, add a HTTP scheme.
+    if(strpos($args,"http://")!==0 && strpos($args,"https://")!==0) {
+        $args = "http://".$args;
+    }
+
+    // Take the first 'word' from the supplied input
+    $url = explode(" ", $args)[0];
+    // Remove chars that are not supposed to be in a URL
+    $url = filter_var($url, FILTER_SANITIZE_URL);
+
+    // Check if what remains is a valid URL
+    if(filter_var($url, FILTER_VALIDATE_URL)) {
+        // Fetch the contents of the URL, and limit to 64kB of http body to mitigate some possible abuse
+        $content = file_get_contents($url,false,NULL,0,65536);
+
+        // Replace any additional whitespace and newlines so we can use regex and not run into multiline texts
+        $content = trim(preg_replace('/\s+/', ' ', $content));
+        // Use a regex to parse for the title. We're not using DOM here since our input could be 4kB truncated malformed HTML
+        if(preg_match("/\<title\>(.*)\<\/title\>/i",$content,$title)) {
+            return "[Title] ".$title[1];
+        } else {
+            return "";
+        }
+    } else {
+        return "";
+    }
 }
 
 function http_banner($args) {
