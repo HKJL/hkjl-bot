@@ -68,7 +68,7 @@ while True:
                 info = givendata[1:].split(None, 1)
                 if len(info) == 1:
                     info.append("")
-                r = requests.get( backendurl + '?action=' + info[0] + '&args=' + urllib.quote_plus(info[1]))
+                r = requests.get( backendurl + '?action=' + urllib.quote_plus(info[0]) + '&args=' + urllib.quote_plus(info[1]))
                 Send(h.unescape(r.text.encode('utf-8').strip(' \n\t\r')))
             except Exception, e:
                 print e

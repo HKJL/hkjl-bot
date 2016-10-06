@@ -120,8 +120,30 @@ switch($action)
     case 'tld':
         output(tld($args));
         break;
+    case 'karma':
+    case 'karma?':
+        output(karmalookup($args));
+        break;
+    case 'karma+':
+        output(karmaup($args));
+        break;
+    case 'karma-':
+        output(karmadown($args));
+        break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
+
+        // Handle shorthand karma commands separately, since they are normally parsed as action and args:
+        if(endsWith($args,"--")) {                              // Example: !two words--
+            output(karmadown(substr($action." ".$args,0,-2)));
+        } else if(endsWith($args,"++")) {                       // Example: !two words++
+            output(karmaup(substr($action." ".$args,0,-2)));
+        } else if(endsWith($action,"--")) {                     // Example: !word--
+            output(karmadown(substr($action,0,-2)));
+        } else if(endsWith($action,"++")) {                     // Example: !word++
+            output(karmaup(substr($action,0,-2)));
+        }
+
         break;
 }
 
@@ -188,4 +210,8 @@ function output($output) {
     }
 
     echo htmlspecialchars($output);
+}
+
+function endsWith($haystack, $needle) {
+    return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
 }
