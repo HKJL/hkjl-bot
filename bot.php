@@ -7,6 +7,8 @@ include("mod_httpstatus.php");
 include("mod_imdb.php");
 include("mod_google.php");
 include("mod_wolfram.php");
+include("mod_karma.php");
+include("mod_tld.php");
 
 $action = $_GET['action'];
 $args = $_GET['args'];
@@ -115,6 +117,9 @@ switch($action)
     case 'gettitle':
         output(get_title($args));
         break;
+    case 'tld':
+        output(tld($args));
+        break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
         break;
@@ -134,12 +139,12 @@ function get_title($args) {
 
     // Check if what remains is a valid URL
     if(filter_var($url, FILTER_VALIDATE_URL)) {
-        // Fetch the contents of the URL, and limit to 64kB of http body to mitigate some possible abuse
+        // Fetch the contents of the URL, and limit http body length to mitigate some possible abuse
         $content = file_get_contents($url,false,NULL,0,65536);
 
         // Replace any additional whitespace and newlines so we can use regex and not run into multiline texts
         $content = trim(preg_replace('/\s+/', ' ', $content));
-        // Use a regex to parse for the title. We're not using DOM here since our input could be 4kB truncated malformed HTML
+        // Use a regex to parse for the title. We're not using DOM here since our input could be truncated malformed HTML
         if(preg_match("/\<title\>(.*)\<\/title\>/i",$content,$title)) {
             return "[Title] ".$title[1];
         } else {
