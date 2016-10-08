@@ -141,6 +141,9 @@ switch($action)
     case 'info+':
         output(setinfo($args));
         break;
+    case 'kies':
+        output(choose($args));
+        break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
 
@@ -208,6 +211,18 @@ function http_banner($args) {
     } else {
         return "That doesn't look like a valid URL...";
     }
+}
+
+function choose($args) {
+
+    $choices = explode(',', $args);
+
+    if(count($choices)==1) {
+        return "[kies] Ben je kort ofzo? Geef me meerdere opties, gescheiden door komma's.";
+    } else {
+        return trim($choices[array_rand($choices)]);
+    }
+
 }
 
 function output($output) {
