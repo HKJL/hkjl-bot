@@ -9,6 +9,7 @@ include("mod_google.php");
 include("mod_wolfram.php");
 include("mod_karma.php");
 include("mod_tld.php");
+include("mod_info.php");
 
 $action = $_GET['action'];
 $args = $_GET['args'];
@@ -129,6 +130,16 @@ switch($action)
         break;
     case 'karma-':
         output(karmadown($args));
+        break;
+    case 'info':
+    case 'info?':
+        output(getinfo($args));
+        break;
+    case 'info-':
+        output(delinfo($args));
+        break;
+    case 'info+':
+        output(setinfo($args));
         break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
