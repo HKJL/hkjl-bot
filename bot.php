@@ -10,6 +10,7 @@ include("mod_wolfram.php");
 include("mod_karma.php");
 include("mod_tld.php");
 include("mod_info.php");
+include("mod_quote.php");
 
 $action = $_GET['action'];
 $args = $_GET['args'];
@@ -143,6 +144,18 @@ switch($action)
         break;
     case 'kies':
         output(choose($args));
+        break;
+    case 'quote+':
+        output(addquote($args));
+        break;
+    case 'quote-':
+        output(delquote($args));
+        break;
+    case 'quote#':
+        output(getquote($args));
+        break;
+    case 'quote':
+        output(randomquote());
         break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
