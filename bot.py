@@ -30,7 +30,7 @@ irc.send ( 'USER ' + nick + ' ' + nick + ' ' + nick + ' :' + nick + '\r\n' )
 h = HTMLParser()
 
 def Send(msg):
-    irc.send('PRIVMSG ' + homechan + ' :' + msg +  '\r\n')
+    irc.send('PRIVMSG ' + homechan + ' :' + msg.encode('utf-8') +  '\r\n')
 
 def everyMinute():
     r = requests.get( backendurl + '?action=minutecron' )
@@ -69,7 +69,7 @@ while True:
                 if len(info) == 1:
                     info.append("")
                 r = requests.get( backendurl + '?action=' + urllib.quote_plus(info[0]) + '&args=' + urllib.quote_plus(info[1]))
-                Send(h.unescape(r.text.encode('utf-8').strip(' \n\t\r')))
+                Send(h.unescape(r.text.strip(' \n\t\r')))
             except Exception, e:
                 print e
                 if senderrorstoirc:
@@ -77,7 +77,7 @@ while True:
         if givendata.find('http') == 0:
             try:
                 r = requests.get( backendurl + '?action=gettitle&args=' + urllib.quote_plus(givendata) )
-                Send(h.unescape(r.text.encode('utf-8').strip(' \n\t\r')))
+                Send(h.unescape(r.text.strip(' \n\t\r')))
             except Exception, e:
                 print e
                 if senderrorstoirc:
