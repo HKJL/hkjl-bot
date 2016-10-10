@@ -10,7 +10,7 @@ network = 'chat.freenode.net'
 welcometext = 'Welcome to the freenode Internet Relay Chat Network'
 port = 6667
 homechan = '##hackenkunjeleren'
-controlchar = '$'
+controlchar = '!'
 nick = 'HKJL'
 bindip = '149.210.200.25'
 backendurl = 'https://www.hackenkunjeleren.nl/bot.php'
@@ -29,12 +29,16 @@ irc.send ( 'USER ' + nick + ' ' + nick + ' ' + nick + ' :' + nick + '\r\n' )
 
 h = HTMLParser()
 
+def Request(query):
+    r = requests.get( backendurl + query )
+    r.raise_for_status()
+    Send(h.unescape(r.text.strip(' \n\t\r')))
+
 def Send(msg):
     irc.send('PRIVMSG ' + homechan + ' :' + msg.encode('utf-8') +  '\r\n')
 
 def everyMinute():
-    r = requests.get( backendurl + '?action=minutecron' )
-    Send(h.unescape(r.text.encode('utf-8').strip(' \n\t\r')))
+    Request('?action=minutecron')
 
 schedule.every(1).minutes.do(everyMinute)
 
@@ -68,16 +72,14 @@ while True:
                 info = givendata[1:].split(None, 1)
                 if len(info) == 1:
                     info.append("")
-                r = requests.get( backendurl + '?action=' + urllib.quote_plus(info[0]) + '&args=' + urllib.quote_plus(info[1]))
-                Send(h.unescape(r.text.strip(' \n\t\r')))
+                Request('?action=' + urllib.quote_plus(info[0]) + '&args=' + urllib.quote_plus(info[1]))
             except Exception, e:
                 print e
                 if senderrorstoirc:
                     Send(e.encode('utf-8').strip(' \n\t\r'))
         if givendata.find('http') == 0:
             try:
-                r = requests.get( backendurl + '?action=gettitle&args=' + urllib.quote_plus(givendata) )
-                Send(h.unescape(r.text.strip(' \n\t\r')))
+                Request('?action=gettitle&args=' + urllib.quote_plus(givendata))
             except Exception, e:
                 print e
                 if senderrorstoirc:
