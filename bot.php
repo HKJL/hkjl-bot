@@ -24,7 +24,7 @@ $args = trim(preg_replace('/\s\s+/', ' ', $args));
 switch($action)
 {
     case 'version':
-        output("HKJL Bot - Eigenaar: Sling - Help: \$help");
+        output("HKJL Bot - Eigenaar: Sling - Help: !help");
         break;
     case 'base64encode':
         output(base64_encode($args));
