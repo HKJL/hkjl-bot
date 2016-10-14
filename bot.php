@@ -157,13 +157,10 @@ switch($action)
     case 'quote':
         output(randomquote());
         break;
-<<<<<<< HEAD
     case 'shrug':
         output("¯\_(ツ)_/¯");
-=======
     case 'leet':
         output(convert_leet($args));
->>>>>>> 9c7862cdc187a8ec4c6f4aea4869d970c27e6262
         break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
