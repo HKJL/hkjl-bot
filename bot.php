@@ -157,6 +157,9 @@ switch($action)
     case 'quote':
         output(randomquote());
         break;
+    case 'shrug':
+        output("¯\_(ツ)_/¯");
+        break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
 

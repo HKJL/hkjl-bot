@@ -34,7 +34,7 @@ function discourse_latest() {
         $i++;
     }
 
-    $text = "Zojuist gepost: \"".$results["topic_list"]["topics"][$i]["title"]."\" door ".$results["topic_list"]["topics"][$i]["last_poster_username"]. " - ";
+    $text = "⭐  \"".$results["topic_list"]["topics"][$i]["title"]."\" door ".$results["topic_list"]["topics"][$i]["last_poster_username"]. " - ";
     $url = "https://community.hackenkunjeleren.nl/t/".$results["topic_list"]["topics"][$i]["slug"]."/".$results["topic_list"]["topics"][$i]["id"]."/".$results["topic_list"]["topics"][$i]["highest_post_number"];
 
     include("sqlconfig.php");
