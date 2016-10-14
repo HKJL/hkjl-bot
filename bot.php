@@ -157,8 +157,13 @@ switch($action)
     case 'quote':
         output(randomquote());
         break;
+<<<<<<< HEAD
     case 'shrug':
         output("¯\_(ツ)_/¯");
+=======
+    case 'leet':
+        output(convert_leet($args));
+>>>>>>> 9c7862cdc187a8ec4c6f4aea4869d970c27e6262
         break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
@@ -257,3 +262,23 @@ function output($output) {
 function endsWith($haystack, $needle) {
     return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
 }
+
+function convert_leet($args) {
+    // Converts string to l33t speak
+    $normal = array("a", "e", "s", "S", "A", "o", "O", "t", "l", "ph", "y", "H", "W", "M", "D", "V", "x"); 
+    $leet = array("4", "3", "z", "Z", "4", "0", "0", "+", "1", "f", "j", "|-|", "\\/\\/", "|\\/|", "|)", "\\/", "><");
+    $result = '';
+    
+    for ($i = 0; $i < strlen($args); $i++) 
+    {
+       $char = $args[$i];
+
+        if (false !== ($pos = array_search($char, $normal))) 
+        {
+            $char = $leet[$pos]; // Change the char to l33t.
+        }
+        $result .= $char;
+    }
+    return $result;
+}
+
