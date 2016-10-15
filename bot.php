@@ -262,8 +262,8 @@ function endsWith($haystack, $needle) {
 
 function convert_leet($args) {
     // Converts string to l33t speak
-    $normal = array("a", "e", "s", "S", "A", "o", "O", "t", "l", "ph", "y", "H", "W", "M", "D", "V", "x"); 
-    $leet = array("4", "3", "z", "Z", "4", "0", "0", "+", "1", "f", "j", "|-|", "\\/\\/", "|\\/|", "|)", "\\/", "><");
+    $normal = array("a", "e", "s", "S", "A", "o", "O", "t", "l", "H", "W", "M", "V", "x"); 
+    $leet = array("4", "3", "z", "Z", "4", "0", "0", "7", "1", "|-|", "\\/\\/", "|\\/|", "\\/", "><");
     $result = '';
     
     for ($i = 0; $i < strlen($args); $i++) 
