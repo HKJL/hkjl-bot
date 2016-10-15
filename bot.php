@@ -50,6 +50,9 @@ switch($action)
     case 'wolfram':
         output(wolfram($args));
         break;
+    case 'random':
+        output('4'); // chosen by fair dice roll. guaranteed to be random.
+        break;
     case 'yt':
     case 'youtube':
         output(youtube($args));
