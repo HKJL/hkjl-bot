@@ -45,6 +45,7 @@ function httpstatus($args) {
     "416" => "Range Not Satisfiable (4xx Client Error, RFC 7233)",
     "417" => "Expectation Failed (4xx Client Error)",
     "418" => "I'm a teapot (4xx Client Error, RFC 2324)",
+    "419" => "I'm a fox (4xx Client Error, Unofficial, Smoothwall/Foxwall")
     "420" => "Method Failure (4xx Client Error, Unofficial, Spring Framework) || Enhance Your Calm (4xx Client Error, Unofficial, Twitter)",
     "421" => "Misdirected Request (4xx Client Error, RFC 7540)",
     "422" => "Unprocessable Entity (4xx Client Error, WebDAV, RFC 4918)",
