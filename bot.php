@@ -202,7 +202,7 @@ function get_title($args) {
         // Replace any additional whitespace and newlines so we can use regex and not run into multiline texts
         $content = trim(preg_replace('/\s+/', ' ', $content));
         // Use a regex to parse for the title. We're not using DOM here since our input could be truncated malformed HTML
-        if(preg_match("/\<title\>(.*)\<\/title\>/i",$content,$title)) {
+        if(preg_match("/\<title\>(.*?(?=\<\/title\>))\<\/title\>/i",$content,$title)) {
             return "[Title] ".$title[1];
         } else {
             return "";
