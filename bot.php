@@ -12,7 +12,7 @@ include("mod_tld.php");
 include("mod_info.php");
 include("mod_quote.php");
 
-$action = $_GET['action'];
+$action = strtolower($_GET['action']);
 $args = $_GET['args'];
 
 // Weird chars being added by python script? 
