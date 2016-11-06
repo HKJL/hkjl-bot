@@ -30,9 +30,14 @@ irc.send ( 'USER ' + nick + ' ' + nick + ' ' + nick + ' :' + nick + '\r\n' )
 h = HTMLParser()
 
 def Request(query):
-    r = requests.get( backendurl + query )
-    r.raise_for_status()
-    Send(h.unescape(r.text.strip(' \n\t\r')))
+    try:
+        r = requests.get( backendurl + query )
+        r.raise_for_status()
+        Send(h.unescape(r.text.strip(' \n\t\r')))
+    except Exception, e:
+        print e
+        if senderrorstoirc:
+            Send(e.encode('utf-8').strip(' \n\t\r'))
 
 def Send(msg):
     irc.send('PRIVMSG ' + homechan + ' :' + msg.encode('utf-8') +  '\r\n')
