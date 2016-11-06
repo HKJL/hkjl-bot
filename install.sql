@@ -26,3 +26,4 @@ ALTER TABLE `quote` ADD PRIMARY KEY (`id`);
 ALTER TABLE `quote` MODIFY `id` int(16) NOT NULL AUTO_INCREMENT;
 
 INSERT INTO `storage` (`name`, `value`) VALUES ('discourse-last-reported-url', '');
+INSERT INTO `storage` (`name`, `value`) VALUES ('discourse-online', 'true');
