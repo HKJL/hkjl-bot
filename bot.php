@@ -201,9 +201,17 @@ function get_title($args) {
 
         // Replace any additional whitespace and newlines so we can use regex and not run into multiline texts
         $content = trim(preg_replace('/\s+/', ' ', $content));
+
         // Use a regex to parse for the title. We're not using DOM here since our input could be truncated malformed HTML
         if(preg_match("/\<title\>(.*?(?=\<\/title\>))\<\/title\>/i",$content,$title)) {
-            return "[Title] ".html_entity_decode($title[1]);
+
+            // Convert stuff like &nbsp; to proper chars
+            $input = html_entity_decode($title[1]);
+
+            // Convert stuff like &#39; to proper chars
+            $output = preg_replace_callback("/(&#[0-9]+;)/", function($m) { return mb_convert_encoding($m[1], "UTF-8", "HTML-ENTITIES"); }, $input);
+
+            return "[Title] ".$output;
         } else {
             return "";
         }
