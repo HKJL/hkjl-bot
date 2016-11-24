@@ -18,40 +18,48 @@ function setinfo($args) {
 
             include("sqlconfig.php");
             $dbh = new PDO('mysql:host=localhost;dbname='.$db,$user,$pass,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")); 
-
-            $oldvalue = getinfo($name);
-
-            if($oldvalue == "[info] Geen informatie bekend, gebruik 'info+' om een info item toe te voegen.") {
-                $query = $dbh->prepare("INSERT INTO info(name,value) VALUES (:name,:value)");
-                $return = "[info] Item toegevoegd";
-            } else {
-                $query = $dbh->prepare("UPDATE info SET value=:value WHERE name=:name");
-                $return = "[info] Item aangepast. Was: ".$oldvalue;
-            }
+            $query = $dbh->prepare("INSERT INTO info(name,value) VALUES (:name,:value)");
             $query->bindParam(':value',$value,PDO::PARAM_STR);
             $query->bindParam(':name',$name,PDO::PARAM_STR);
             $query->execute();
-    
-            return $return;
+
+            return "[info] Item toegevoegd";
         }
     }
 }
 
 function delinfo($args) {
 
-    include("sqlconfig.php");
-    $dbh = new PDO('mysql:host=localhost;dbname='.$db,$user,$pass,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+    $index = end(explode(' ',$args));
 
-    if(getinfo($args) == "[info] Geen informatie bekend, gebruik 'info+' om een info item toe te voegen.") {
-        return "[info] Dit item bestaat helemaal niet!";  
+    if(!is_numeric($index)) {
+        return "[info] Je hebt geen geldige index opgegeven, gebruik: 'info- <naam> <N>' om het N-de infoitem van <naam> te verwijderen.";
     } else {
-        $query = $dbh->prepare("DELETE FROM info WHERE name=:name");
+        preg_match("/^(.*)\ [0-9]+$/",$args,$names);
+        $name = $names[1];
+
+        include("sqlconfig.php");
+        $dbh = new PDO('mysql:host=localhost;dbname='.$db,$user,$pass,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+        $query = $dbh->prepare("SELECT value FROM info WHERE name=:name");
+        $query->bindParam(':name',$name,PDO::PARAM_STR);
+        $query->execute();
+        $rowcount = $query->rowCount();
+        if($rowcount == 0) {
+            return "[info] Dit item bestaat helemaal niet! ";
+        } else {
+            if($rowcount < $index) {
+                return "[info] Deze index is iets te hoog, helaas..";
+            } else {
+                $values = $query->fetchAll(PDO::FETCH_COLUMN);
+                $value = $values[$index - 1];
+                $query = $dbh->prepare("DELETE FROM info WHERE name=:name AND value=:value");
+                $query->bindParam(':name',$name,PDO::PARAM_STR);
+                $query->bindParam(':value',$value,PDO::PARAM_STR);
+                $query->execute();
+                return "[info] Item verwijderd";
+            }
+        }
     }
-    $query->bindParam(':name',$args,PDO::PARAM_STR);
-    $query->execute();
-
-    return "[info] Item verwijderd";
-
 }
 
 function getinfo($args) {
@@ -64,8 +72,14 @@ function getinfo($args) {
     $query->execute();
 
     if($query->rowCount() > 0) {
-        $value = $query->fetchColumn();
-        return $value;
+
+        $values = $query->fetchAll(PDO::FETCH_COLUMN);
+        for($i=1; $i<count($values); $i++) {
+            $list .= "(" . $i . ") " . $values[$i-1] . ", ";
+        }
+        $list .= "(" . $i . ") " . $values[$i-1];
+
+        return "[info] ".$args." = ".$list;
     } else {
         return "[info] Geen informatie bekend, gebruik 'info+' om een info item toe te voegen.";
     }

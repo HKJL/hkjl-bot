@@ -135,13 +135,16 @@ switch($action)
     case 'karma-':
         output(karmadown($args));
         break;
+    case 'def':
     case 'info':
     case 'info?':
         output(getinfo($args));
         break;
+    case 'def-':
     case 'info-':
         output(delinfo($args));
         break;
+    case 'def+':
     case 'info+':
         output(setinfo($args));
         break;
