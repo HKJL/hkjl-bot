@@ -11,6 +11,7 @@ include("mod_karma.php");
 include("mod_tld.php");
 include("mod_info.php");
 include("mod_quote.php");
+include("mod_urbandictionary.php");
 
 $action = strtolower($_GET['action']);
 $args = $_GET['args'];
@@ -167,6 +168,10 @@ switch($action)
         output("¯\_(ツ)_/¯");
     case 'leet':
         output(convert_leet($args));
+        break;
+    case 'urban':
+    case 'ud':
+        output(urban($args));
         break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
