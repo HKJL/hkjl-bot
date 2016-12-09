@@ -13,8 +13,44 @@ include("mod_info.php");
 include("mod_quote.php");
 include("mod_urbandictionary.php");
 
-$action = strtolower($_GET['action']);
-$args = $_GET['args'];
+$controlchar = "!";
+$args        = "";
+$action      = "";
+
+if(isset($_GET['data'])) {
+
+    // Raw data is coming in
+    preg_match("/^:([^\ ]+)\ ([^\ ]+)\ ([^\ ]+)\ :(.*)$/",$_GET['data'],$data);
+    $user    = $data[1];
+    $command = $data[2];
+    $channel = $data[3];
+    $message = $data[4];
+    
+    if(substr($message,0,1)===$controlchar) {
+        // Handle command like !command args
+	$firstspace = strpos($message," ");
+        if(!$firstspace) {
+            $action = trim(substr($message,1)); 
+        } else {
+            $action = trim(substr($message,1,$firstspace));
+            $args   = trim(substr($message,strlen($action)+1));
+        }
+    } else {
+        // If no command was given, check if there are any HTTP URI's we can grab titles from
+        preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $message, $match);
+        if(isset($match[0][0])) {
+            $action = "gettitle";
+            $args   = $match[0][0];
+        }
+    }
+
+} else {
+
+    // No raw data but specific command coming in, such as scheduled job
+    if(isset($_GET['action'])) {
+        $action = strtolower($_GET['action']);
+    }
+}
 
 // Weird chars being added by python script? 
 $args = str_replace("%0D%0A","",$args);
