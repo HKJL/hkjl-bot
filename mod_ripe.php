@@ -27,11 +27,15 @@ function ripe($args) {
                     default:
                 }
             }
-            
-            $returnstring = "[RIPE] ".$data." rDNS: ".gethostbyaddr($args);    
+            $returnstring = "[RIPE] Info about ".$args.": ".$data." rDNS: ".gethostbyaddr($args);    
         }
     } else {
-        $returnstring = "[RIPE] Dit is geen geldig IP-adres!";
+        $ip = gethostbyname($args);
+        if(!filter_var($ip, FILTER_VALIDATE_IP) === false) {
+            return ripe($ip);
+        } else {
+            $returnstring = "[RIPE] Dit is geen geldig IP-adres!";
+        }
     }
     return $returnstring;
 }
