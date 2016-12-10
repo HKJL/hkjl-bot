@@ -12,6 +12,7 @@ include("mod_tld.php");
 include("mod_info.php");
 include("mod_quote.php");
 include("mod_urbandictionary.php");
+include("mod_ripe.php");
 
 $controlchar = "!";
 $args        = "";
@@ -208,6 +209,12 @@ switch($action)
     case 'urban':
     case 'ud':
         output(urban($args));
+        break;
+    case 'ripe':
+    case 'whois':
+    case 'lookup':
+    case 'ip':
+        output(ripe($args));
         break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
