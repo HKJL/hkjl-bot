@@ -34,7 +34,7 @@ function ripe($args) {
         if(!filter_var($ip, FILTER_VALIDATE_IP) === false) {
             return ripe($ip);
         } else {
-            $returnstring = "[RIPE] Dit is geen geldig IP-adres!";
+            $returnstring = "[RIPE] Voer een IP-adres in, of een hostname die resolved naar een IP-adres!";
         }
     }
     return $returnstring;
