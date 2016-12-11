@@ -31,9 +31,9 @@ if(isset($_GET['data'])) {
         // Handle command like !command args
 	$firstspace = strpos($message," ");
         if(!$firstspace) {
-            $action = trim(substr($message,1)); 
+            $action = strtolower(trim(substr($message,1))); 
         } else {
-            $action = trim(substr($message,1,$firstspace));
+            $action = strtolower(trim(substr($message,1,$firstspace)));
             $args   = trim(substr($message,strlen($action)+1));
         }
     } else {
