@@ -228,6 +228,8 @@ switch($action)
             output(karmadown(substr($action,0,-2)));
         } else if(endsWith($action,"++")) {                     // Example: !word++
             output(karmaup(substr($action,0,-2)));
+        } else if(($args == "ok" || $args == "oke") && rand(1,5) == 4) {
+            output("oke is goed");
         }
 
         break;
