@@ -43,6 +43,10 @@ if(isset($_GET['data'])) {
             $action = "gettitle";
             $args   = $match[0][0];
         }
+
+        // Random chat triggers
+        $message = trim($message);
+        if(($message=="ok"||$message=="oke") && rand(1,5)==4) output("is goed");
     }
 
 } else {
@@ -228,8 +232,6 @@ switch($action)
             output(karmadown(substr($action,0,-2)));
         } else if(endsWith($action,"++")) {                     // Example: !word++
             output(karmaup(substr($action,0,-2)));
-        } else if(($action == "ok" || $action == "oke") && rand(1,5) == 4) {
-            output("oke is goed");
         }
 
         break;
