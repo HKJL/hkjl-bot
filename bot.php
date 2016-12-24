@@ -203,7 +203,7 @@ switch($action)
         output(getquote($args));
         break;
     case 'quote':
-        output(randomquote());
+        output(quote($args));
         break;
     case 'shrug':
         output("¯\_(ツ)_/¯");
