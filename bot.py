@@ -5,14 +5,14 @@ import schedule
 import argparse
 from HTMLParser import HTMLParser
 
-parser = argparse.ArgumentParser(description='Run the Hackenkunjeleren IRC bot')
-parser.add_argument('--network', dest='network', help='IRC server hostname or IP (default: chat.freenode.net)', default='chat.freenode.net')
-parser.add_argument('--port', dest='port', help='IRC TCP port (default: 6667, no SSL/TLS support)', default=6667)
-parser.add_argument('--bind', dest='bindip', help='IP used for outgoing IRC connection (default: 149.210.200.25)', default='149.210.200.25')
-parser.add_argument('--backend', dest='backendurl', help='URL where the HTTP bot backend can be reached (default: https://www.hackenkunjeleren.nl/bot.php', default='https://www.hackenkunjeleren.nl/bot.php')
-parser.add_argument('--channel', dest='homechan', help='IRC channel (default: ##hackenkunjeleren)', default='##hackenkunjeleren')
-parser.add_argument('--nickname', dest='nick', help='IRC nickname (default: HKJL)', default='HKJL')
-parser.add_argument('--welcome', dest='welcometext', help='After encountering this string in the IRC server output, the IRC channel will be joined (default: Welcome to the freenode Internet Relay Chat Network)', default='Welcome to the freenode Internet Relay Chat Network')
+parser = argparse.ArgumentParser(description='Run the Hackenkunjeleren IRC bot', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument('--network', dest='network', help='IRC server hostname or IP', default='chat.freenode.net')
+parser.add_argument('--port', dest='port', help='IRC TCP port', default=6667)
+parser.add_argument('--bind', dest='bindip', help='IP used for outgoing IRC connection', default='149.210.200.25')
+parser.add_argument('--backend', dest='backendurl', help='URL where the HTTP bot backend can be reached', default='https://www.hackenkunjeleren.nl/bot.php')
+parser.add_argument('--channel', dest='homechan', help='IRC channel', default='##hackenkunjeleren')
+parser.add_argument('--nickname', dest='nick', help='IRC nickname', default='HKJL')
+parser.add_argument('--welcome', dest='welcometext', help='After encountering this string in the IRC server output, the IRC channel will be joined', default='Welcome to the freenode Internet Relay Chat Network')
 args = parser.parse_args()
 
 def Request(query):
