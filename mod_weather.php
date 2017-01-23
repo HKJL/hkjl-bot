@@ -6,7 +6,7 @@ function weather($args) {
     include("mod_weather_config.php");   
 
     // Look up city ID (file contains only NL and BE cities)
-    $file = file_get_contents('/var/www/hackenkunjeleren.nl/bot/vendor/openweathermap.org/cities_nl_be.json',true);
+    $file = file_get_contents(__DIR__ . '/vendor/openweathermap.org/cities_nl_be.json', true);
     $data = explode("\n", $file); 
     $id = 0;
     foreach($data as $dataline)
