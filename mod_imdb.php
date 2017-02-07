@@ -4,7 +4,9 @@ function imdb($args) {
 
     if(strlen($args)>1) {
         $result = json_decode(file_get_contents("http://www.omdbapi.com/?t=".urlencode($args)),true);
-        if($result["Response"]=="False") {
+        if($result == NULL) {
+            $returnstring = "[IMDB] Error: www.omdbapi.com not available!";
+        } elseif($result["Response"]=="False") {
             $returnstring = "[IMDB] Error: ".$result["Error"];
         } else {
             $returnstring = "[IMDB] http://www.imdb.com/title/".$result["imdbID"]." - ".$result["Title"].", ".$result["Year"]." (".$result["imdbRating"].") - ".$result["Plot"];
