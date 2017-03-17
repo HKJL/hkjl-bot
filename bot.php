@@ -86,6 +86,10 @@ switch($action)
     case 'lmgtfy':
         output("http://lmgtfy.com/?q=".urlencode($args));
         break;
+    case 'paste':
+    case 'pastebin':
+        output("Meer dan een paar regels delen? Gebruik de pastebin: https://www.hackenkunjeleren.nl/pastebin");
+        break;
     case 'help':
         output("Handleiding van deze bot: https://community.hackenkunjeleren.nl/t/handleiding-hkjl-irc-bot/199");
         break;
