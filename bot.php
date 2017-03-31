@@ -220,6 +220,10 @@ switch($action)
     case 'ip':
         output(ripe($args));
         break;
+    case 'wind':
+    case 'windkracht':
+        output(windkracht($args));
+        break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
 
