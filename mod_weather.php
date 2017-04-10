@@ -45,7 +45,7 @@ function windkracht($args) {
         9 => "Windkracht 9: Storm - Schoorsteenkappen en dakpannen waaien weg, kinderen waaien om",
         10 => "Windkracht 10: Zware storm - Grote schade aan gebouwen, volwassenen waaien om",
         11 => "Windkracht 11: Zeer zware storm - Enorme schade aan bossen",
-        12 => "Windkracht 12: Orkaan - Verwoestingen");
+        12 => "Windkracht 12: Orkaan - Verwoestingen. Tijd om naar binnen te gaan.");
 
     $input = round($args);
     if($input >= 0 && $input < 13)
