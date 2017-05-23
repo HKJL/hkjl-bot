@@ -3,7 +3,7 @@
 function setinfo($args) {
 
     $matched = preg_match('/^(.*?)=(.*)$/', $args, $split);
-    if(!$matched) {
+    if(!$matched || empty($split[1]) || empty($split[2])) {
         return "[info] Je invoer was niet geldig, heb je wel een = teken gebruikt? Bijvoorbeeld: info+ hacken kun je leren = cool";
     } else {
 
