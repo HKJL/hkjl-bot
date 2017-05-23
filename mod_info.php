@@ -2,13 +2,13 @@
 
 function setinfo($args) {
 
-    $split = split(' = ', $args, 2);
-    if(count($split)==1) {
+    $matched = preg_match('/^(.*?)=(.*)$/', $args, $split);
+    if(!$matched || empty($split[1]) || empty($split[2])) {
         return "[info] Je invoer was niet geldig, heb je wel een = teken gebruikt? Bijvoorbeeld: info+ hacken kun je leren = cool";
     } else {
 
-        $name = trim($split[0]);
-        $value = trim($split[1]);
+        $name = trim($split[1]);
+        $value = trim($split[2]);
 
         if(strlen($name)==0 || strlen($value)==0) {
             return "[info] Ik begrijp er niks van, heb je wel een = teken gebruikt? Bijvoorbeeld: info+ hacken kun je leren = cool";
