@@ -13,6 +13,7 @@ include("mod_info.php");
 include("mod_quote.php");
 include("mod_urbandictionary.php");
 include("mod_ripe.php");
+include("mod_coin.php");
 
 $controlchar = "!";
 $args        = "";
@@ -225,6 +226,9 @@ switch($action)
     case 'wind':
     case 'windkracht':
         output(windkracht($args));
+        break;
+    case 'coin':
+        output(coin($args));
         break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
