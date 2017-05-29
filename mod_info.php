@@ -85,3 +85,27 @@ function getinfo($args) {
     }
 
 }
+
+
+function getkeys() {
+
+    include("sqlconfig.php");
+    $dbh = new PDO('mysql:host=localhost;dbname='.$db,$user,$pass,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+
+    $query = $dbh->prepare("SELECT name FROM info");
+    $query->execute();
+
+    if($query->rowCount() > 0) {
+
+        $values = $query->fetchAll(PDO::FETCH_COLUMN);
+        for($i=1; $i<count($values); $i++) {
+            $list .= "(" . $i . ") " . $values[$i-1] . ", ";
+        }
+        $list .= "(" . $i . ") " . $values[$i-1];
+
+        return "[info] ".$list;
+    } else {
+        return "[info] hahah wtf is leeg doei";
+    }
+
+}
