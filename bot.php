@@ -185,6 +185,10 @@ switch($action)
     case 'info?':
         output(getinfo($args));
         break;
+    case 'deflist':
+    case 'infolist':
+        output(getkeys());
+        break;
     case 'def-':
     case 'info-':
         output(delinfo($args));
