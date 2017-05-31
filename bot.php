@@ -14,6 +14,7 @@ include("mod_quote.php");
 include("mod_urbandictionary.php");
 include("mod_ripe.php");
 include("mod_coin.php");
+include("mod_rate.php");
 
 $controlchar = "!";
 $args        = "";
@@ -233,6 +234,9 @@ switch($action)
         break;
     case 'coin':
         output(coin($args));
+        break;
+    case 'rate':
+        output(modRate::rate($args));
         break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
