@@ -32,12 +32,18 @@ function delquote($args) {
 
 }
 
-function randomquote() {
+function quote($args) {
 
     include("sqlconfig.php");
     $dbh = new PDO('mysql:host=localhost;dbname='.$db,$user,$pass,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 
-    $query = $dbh->prepare("SELECT * FROM quote ORDER BY RAND() LIMIT 0,1");
+    if(!empty($args)) {
+        $args = "%$args%";
+        $query = $dbh->prepare("SELECT * FROM quote WHERE quote LIKE :search ORDER BY RAND() LIMIT 0,1");
+        $query->bindParam('search',$args,PDO::PARAM_STR);
+    } else {
+        $query = $dbh->prepare("SELECT * FROM quote ORDER BY RAND() LIMIT 0,1");
+    }
     $query->execute();
 
     if($query->rowCount() > 0) {

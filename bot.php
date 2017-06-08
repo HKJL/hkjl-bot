@@ -11,9 +11,55 @@ include("mod_karma.php");
 include("mod_tld.php");
 include("mod_info.php");
 include("mod_quote.php");
+include("mod_urbandictionary.php");
+include("mod_ripe.php");
+include("mod_coin.php");
+include("mod_rate.php");
 
-$action = $_GET['action'];
-$args = $_GET['args'];
+$controlchar = "!";
+$args        = "";
+$action      = "";
+
+if(isset($_GET['data'])) {
+
+    // Raw data is coming in
+    preg_match("/^:([^\ ]+)\ ([^\ ]+)\ ([^\ ]+)\ :(.*)$/",$_GET['data'],$data);
+    $user    = $data[1];
+    $command = $data[2];
+    $channel = $data[3];
+    $message = $data[4];
+    
+    if(substr($message,0,1)===$controlchar) {
+        // Handle command like !command args
+	$firstspace = strpos($message," ");
+        if(!$firstspace) {
+            $action = strtolower(trim(substr($message,1))); 
+        } else {
+            $action = strtolower(trim(substr($message,1,$firstspace)));
+            $args   = trim(substr($message,strlen($action)+1));
+        }
+    } else {
+        // If no command was given, check if there are any HTTP URI's we can grab titles from
+        preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $message, $match);
+        if(isset($match[0][0])) {
+            $action = "gettitle";
+            $args   = $match[0][0];
+        }
+
+        // Random chat triggers
+        $message = trim($message);
+        if(($message=="ok"||$message=="oke") && rand(1,5)==4) output("is goed");
+        if(($message=="zeg dat wel")) output("dat wel");
+        if(($message=="zeg het maar")) output("het maar");
+    }
+
+} else {
+
+    // No raw data but specific command coming in, such as scheduled job
+    if(isset($_GET['action'])) {
+        $action = strtolower($_GET['action']);
+    }
+}
 
 // Weird chars being added by python script? 
 $args = str_replace("%0D%0A","",$args);
@@ -24,7 +70,7 @@ $args = trim(preg_replace('/\s\s+/', ' ', $args));
 switch($action)
 {
     case 'version':
-        output("HKJL Bot - Eigenaar: Sling - Help: \$help");
+        output("HKJL Bot - Eigenaar: Sling - Help: !help");
         break;
     case 'base64encode':
         output(base64_encode($args));
@@ -49,6 +95,9 @@ switch($action)
         break;
     case 'wolfram':
         output(wolfram($args));
+        break;
+    case 'random':
+        output('4'); // chosen by fair dice roll. guaranteed to be random.
         break;
     case 'yt':
     case 'youtube':
@@ -132,13 +181,20 @@ switch($action)
     case 'karma-':
         output(karmadown($args));
         break;
+    case 'def':
     case 'info':
     case 'info?':
         output(getinfo($args));
         break;
+    case 'deflist':
+    case 'infolist':
+        output(getkeys());
+        break;
+    case 'def-':
     case 'info-':
         output(delinfo($args));
         break;
+    case 'def+':
     case 'info+':
         output(setinfo($args));
         break;
@@ -155,10 +211,32 @@ switch($action)
         output(getquote($args));
         break;
     case 'quote':
-        output(randomquote());
+        output(quote($args));
         break;
+    case 'shrug':
+        output("¯\_(ツ)_/¯");
     case 'leet':
         output(convert_leet($args));
+        break;
+    case 'urban':
+    case 'ud':
+        output(urban($args));
+        break;
+    case 'ripe':
+    case 'whois':
+    case 'lookup':
+    case 'ip':
+        output(ripe($args));
+        break;
+    case 'wind':
+    case 'windkracht':
+        output(windkracht($args));
+        break;
+    case 'coin':
+        output(coin($args));
+        break;
+    case 'rate':
+        output(modRate::rate($args));
         break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
@@ -196,9 +274,17 @@ function get_title($args) {
 
         // Replace any additional whitespace and newlines so we can use regex and not run into multiline texts
         $content = trim(preg_replace('/\s+/', ' ', $content));
+
         // Use a regex to parse for the title. We're not using DOM here since our input could be truncated malformed HTML
-        if(preg_match("/\<title\>(.*)\<\/title\>/i",$content,$title)) {
-            return "[Title] ".$title[1];
+        if(preg_match("/\<title\>(.*?(?=\<\/title\>))\<\/title\>/i",$content,$title)) {
+
+            // Convert stuff like &nbsp; to proper chars
+            $input = html_entity_decode($title[1]);
+
+            // Convert stuff like &#39; to proper chars
+            $output = preg_replace_callback("/(&#[0-9]+;)/", function($m) { return mb_convert_encoding($m[1], "UTF-8", "HTML-ENTITIES"); }, $input);
+
+            return "[Title] ".$output;
         } else {
             return "";
         }
