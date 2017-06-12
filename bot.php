@@ -1,12 +1,9 @@
 <?php
 
-include("mod_youtube.php");
-include("mod_discourse.php");
-include("mod_weather.php");
+// Standalone modules
 include("mod_httpstatus.php");
 include("mod_imdb.php");
 include("mod_google.php");
-include("mod_wolfram.php");
 include("mod_karma.php");
 include("mod_tld.php");
 include("mod_info.php");
@@ -15,6 +12,12 @@ include("mod_urbandictionary.php");
 include("mod_ripe.php");
 include("mod_coin.php");
 include("mod_rate.php");
+
+// Modules that need an API key
+include("mod_discourse.php");
+include("mod_weather.php");
+include("mod_wolfram.php");
+include("mod_youtube.php");
 
 $controlchar = "!";
 $args        = "";
