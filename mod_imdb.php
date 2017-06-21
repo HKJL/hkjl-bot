@@ -4,7 +4,7 @@ function imdb($args) {
 
     if(strlen($args)>1) {
         $search = preg_replace('/[^A-Za-z0-9]/', '', preg_replace('/\s/', '_', strtolower($args)));
-        $result = file_get_contents("https://v2.sg.media-imdb.com/suggests/a/".urlencode($search).".json");
+        $result = file_get_contents("https://v2.sg.media-imdb.com/suggests/".substr($search,0,1)."/".urlencode($search).".json");
         $result = preg_replace('/^imdb.*\(/', '', $result);
         $result = json_decode(rtrim($result, ')'), true);
         if(empty($result)) {
