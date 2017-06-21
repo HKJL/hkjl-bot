@@ -13,7 +13,12 @@ function imdb($args) {
             $returnstring = "[IMDB] Geen resultaat";
         } else {
             $result = $result['d'][0];
-            $returnstring = "[IMDB] http://www.imdb.com/title/".$result["id"]." - ".$result["l"].", ".$result["y"];
+            $type = substr($result['id'],0,2);
+            if($type == 'nm') {
+              $returnstring = "[IMDB] http://www.imdb.com/name/".$result["id"]." - ".$result["l"];
+            } else {
+              $returnstring = "[IMDB] http://www.imdb.com/title/".$result["id"]." - ".$result["l"].", ".$result["y"];
+            }
         }
     } else {
         $returnstring = "[IMDB] Error: Geef een zoekterm van 2 of meer tekens!";
