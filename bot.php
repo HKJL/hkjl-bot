@@ -12,6 +12,7 @@ include("mod_urbandictionary.php");
 include("mod_ripe.php");
 include("mod_coin.php");
 include("mod_rate.php");
+include("mod_meeteta.php");
 
 // Modules that need an API key
 include("mod_discourse.php");
@@ -240,6 +241,9 @@ switch($action)
         break;
     case 'rate':
         output(modRate::rate($args));
+        break;
+    case 'meeteta':
+        output(meet_eta());
         break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
