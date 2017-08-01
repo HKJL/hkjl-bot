@@ -13,6 +13,7 @@ include("mod_ripe.php");
 include("mod_coin.php");
 include("mod_rate.php");
 include("mod_meeteta.php");
+include("mod_manpage.php");
 
 // Modules that need an API key
 include("mod_discourse.php");
@@ -244,6 +245,9 @@ switch($action)
         break;
     case 'meeteta':
         output(meet_eta());
+        break;
+    case 'man':
+        output(manpage($args));
         break;
     default:
         // Silently ignore invalid actions to prevent unwanted spamming
