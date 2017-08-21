@@ -1,3 +1,7 @@
+CREATE TABLE `youtubelinks` (
+  `url` varchar(100) NOT NULL,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `karma` (
   `name` varchar(255) NOT NULL,
   `karma` int(11) NOT NULL
@@ -19,6 +23,7 @@ CREATE TABLE `quote` (
   `quote` varchar(450) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE `youtubelinks` ADD PRIMARY KEY (`url`);
 ALTER TABLE `karma` ADD PRIMARY KEY (`name`);
 ALTER TABLE `storage` ADD PRIMARY KEY (`name`);
 ALTER TABLE `quote` ADD PRIMARY KEY (`id`);

@@ -266,7 +266,7 @@ switch($action)
         break;
 }
 
-function get_title($args) {
+function get_title($args, $prefix = 1) {
 
     // If user did not supply a HTTP or HTTPS scheme, add a HTTP scheme.
     if(strpos($args,"http://")!==0 && strpos($args,"https://")!==0) {
@@ -295,7 +295,13 @@ function get_title($args) {
             // Convert stuff like &#39; to proper chars
             $output = preg_replace_callback("/(&#[0-9]+;)/", function($m) { return mb_convert_encoding($m[1], "UTF-8", "HTML-ENTITIES"); }, $input);
 
-            return "[Title] ".$output;
+            if($prefix) {
+              if(preg_match("/(youtube\.com\/watch\?v=[0-9A-Za-z_-]{11})/",$url, $yturl)) addYoutubeURL($yturl[1]);
+              return "[Title] ".$output;
+            } else {
+              return $output;
+            }
+
         } else {
             return "";
         }

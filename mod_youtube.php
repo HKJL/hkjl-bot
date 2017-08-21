@@ -6,6 +6,17 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 function youtube($args) {
 
+  // Return random earlier mentioned youtube link when no search parameter was provided
+  if(empty($args)) {
+    include("sqlconfig.php");
+    $dbh = new PDO('mysql:host=localhost;dbname='.$db,$user,$pass,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+    $stmt = $dbh->prepare("SELECT url FROM youtubelinks ORDER BY RAND() LIMIT 0,1");
+    $stmt->execute();
+    $result = $stmt->fetch();
+    $link = "https://".$result['url'];
+    return "[YT] ".$link." ".get_title($link,0);
+  } else {
+
     // Load file containing $youtube_api_key value
     include("mod_youtube_config.php");   
 
@@ -20,6 +31,10 @@ function youtube($args) {
             foreach ($searchResponse['items'] as $searchResult) {
                 switch ($searchResult['id']['kind']) {
                     case 'youtube#video':
+
+                        // Insert link into database for later retrieval (see argument-less functionality at top of this module)
+                        addYoutubeURL("www.youtube.com/watch?v=".$searchResult['id']['videoId']);
+
                         return sprintf('[YT] https://youtube.com/watch?v=%s - %s', $searchResult['id']['videoId'], $searchResult['snippet']['title']);
                         break;
                     case 'youtube#channel':
@@ -40,5 +55,13 @@ function youtube($args) {
     } catch (Google_Exception $e) {
         return "[YT] API Client Error: ".$e->getMessage();
     }
+  }
+}
 
+function addYoutubeURL($url) {
+  include("sqlconfig.php");
+  $dbh = new PDO('mysql:host=localhost;dbname='.$db,$user,$pass,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+  $stmt = $dbh->prepare("INSERT INTO youtubelinks VALUES (:url)");
+  $stmt->bindParam(":url", $url);
+  $stmt->execute();
 }
