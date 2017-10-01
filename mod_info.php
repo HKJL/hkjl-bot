@@ -52,7 +52,7 @@ function delinfo($args) {
             } else {
                 $values = $query->fetchAll(PDO::FETCH_COLUMN);
                 $value = $values[$index - 1];
-                $query = $dbh->prepare("DELETE FROM info WHERE name=:name AND value=:value");
+                $query = $dbh->prepare("DELETE FROM info WHERE name=:name AND value=:value LIMIT 1");
                 $query->bindParam(':name',$name,PDO::PARAM_STR);
                 $query->bindParam(':value',$value,PDO::PARAM_STR);
                 $query->execute();
