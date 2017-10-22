@@ -43,8 +43,7 @@ parser.add_argument('--welcome',
                     dest='welcometext',
                     help='After encountering this string in the IRC server \
                     output, the IRC channel will be joined',
-                    default='Welcome to the freenode Internet Relay Chat \
-                    Network')
+                    default='End of /MOTD command')
 
 args = parser.parse_args()
 
