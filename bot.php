@@ -237,6 +237,7 @@ switch($action)
     case 'windkracht':
         output(windkracht($args));
         break;
+    case 'price':
     case 'coin':
         output(coin($args));
         break;
