@@ -20,7 +20,7 @@ CREATE TABLE `info` (
 
 CREATE TABLE `quote` (
   `id` int(16) NOT NULL,
-  `quote` varchar(450) NOT NULL
+  `quote` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `youtubelinks` ADD PRIMARY KEY (`url`);
