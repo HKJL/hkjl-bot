@@ -6,7 +6,7 @@ function discourse_search($args) {
     include("mod_discourse_config.php");
 
     // Force IPv4 (temp hack since communtiy is unreachable over v6)
-    $opts = array('socket' => array('bindto' => '149.210.200.17:0'));
+    $opts = array('socket' => array('bindto' => '149.210.200.17:0'), 'http' => array('timeout' => 2));
     $context = stream_context_create($opts);
 
     $json = file_get_contents("https://community.hackenkunjeleren.nl/search.json?api_key=".$discourse_api_key."&api_username=Test&q=".urlencode($args),false,$context);
@@ -33,7 +33,7 @@ function discourse_latest() {
     $dbh = new PDO('mysql:host=localhost;dbname='.$db,$user,$pass,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 
     // Force IPv4 (temp hack since communtiy is unreachable over v6)
-    $opts = array('socket' => array('bindto' => '149.210.200.17:0'));
+    $opts = array('socket' => array('bindto' => '149.210.200.17:0'), 'http' => array('timeout' => 2));
     $context = stream_context_create($opts);
 
     $json = file_get_contents("https://community.hackenkunjeleren.nl/latest.json?api_key=".$discourse_api_key."&api_username=Test", false, $context);
