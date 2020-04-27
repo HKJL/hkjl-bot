@@ -12,7 +12,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument('--network',
                     dest='network',
                     help='IRC server hostname or IP',
-                    default='chat.freenode.net')
+                    default='irc.smurfnet.ch')
 
 parser.add_argument('--port',
                     dest='port',
@@ -32,7 +32,7 @@ parser.add_argument('--backend',
 parser.add_argument('--channel',
                     dest='homechan',
                     help='IRC channel',
-                    default='##hackenkunjeleren')
+                    default='#hackenkunjeleren')
 
 parser.add_argument('--nickname',
                     dest='nick',
@@ -43,7 +43,7 @@ parser.add_argument('--welcome',
                     dest='welcometext',
                     help='After encountering this string in the IRC server \
                     output, the IRC channel will be joined',
-                    default='End of /MOTD command')
+                    default='End of message of the day')
 
 args = parser.parse_args()
 
